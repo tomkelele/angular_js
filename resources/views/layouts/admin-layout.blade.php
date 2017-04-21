@@ -17,16 +17,30 @@
 
     <!--  Light Bootstrap Table core CSS    -->
     <link href=" {{ url('css/light-bootstrap-dashboard.css') }}" rel="stylesheet"/>
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" type="text/css" href="{{ url('css/sweetalert.css') }}">
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .modal-backdrop {
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+    <div class="sidebar" data-color="purple">
 
     <!--
 
@@ -100,9 +114,7 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
-                    @yield('contents')
-                </div>
+                @yield('contents')
             </div>
         </div>
 
@@ -124,25 +136,12 @@
     <!--   Core JS Files   -->
     <script src="{{ url('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
   <script src="{{ url('js/bootstrap/bootstrap.min.js') }}" type="text/javascript"></script>
-
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
   <script src="{{ url('js/light-bootstrap-dashboard.js') }}"></script>
-
-  <script type="text/javascript">
-      $(document).ready(function(){
-
-          demo.initChartist();
-
-          $.notify({
-              icon: 'pe-7s-gift',
-              message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
-            },{
-                type: 'info',
-                timer: 4000
-            });
-
-      });
-  </script>
-
+  <!-- Sweet Alert -->
+  <script src="{{ url('js/sweetalert.min.js') }}"></script>
+  <!-- Angularjs -->
+  <script src="{{ url('js/angular.min.js') }}"></script>
+  <script src="{{ url('js/lib/app.js') }}"></script>
+  @yield('scripts')
 </html>
