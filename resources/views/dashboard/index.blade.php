@@ -1,52 +1,77 @@
-@extends('layouts.admin-layout')
+@extends('layouts.dashboard-layout')
 
 @section('contents')
-<div class="row" ng-app="my-app">
-	<div class="col-md-12" ng-controller="MemberController">
-		<button class="btn btn-primary pull-right" ng-click="modal()">Add new member</button>
-		<table class="table table-striped">
-			<thead>
-				<th><strong>ID</strong></th>
-				<th><strong>Photo</strong></th>
-				<th><strong>Name</strong></th>
-				<th><strong>Address</strong></th>
-				<th><strong>Age</strong></th>
-				<th><strong>Gender</strong></th>
-				<th><strong>Action</strong></th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="member in members">
-					<td>@{{ member.id }}</td>
-					<td><img class="img-circle" height="80" ng-src="{{ url('upload/avatar') }}/@{{ member.photo }}"></td>
-					<td>@{{ member.name }}</td>
-					<td>@{{ member.address }}</td>
-					<td>@{{ member.age }}</td>
-					<td ng-if="member.gender == 0">Male</td>
-					<td ng-if="member.gender == 1">Female</td>
-					<td>
-						<button class="btn btn-warning" ng-click="modal()"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
-						<button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
-					</td>
-				</tr>
-				<div id="myModal" class="modal fade" role="dialog">
-		  	<div class="modal-dialog">
-		    <!-- Modal content-->
-			    <div class="modal-content">
-			      	<div class="modal-header">
-			        	<button type="button" class="close" data-dismiss="modal">&times;</button>
-			        	<h4 class="modal-title">Modal Header</h4>
-			      	</div>
-			      	<div class="modal-body">
-			        	<p>Some text in the modal.</p>
-			      	</div>
-			      	<div class="modal-footer">
-			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			      	</div>
-			    </div>
-	  		</div>
-		</div>
-			</tbody>
-		</table>
+<div ng-controller="MemberController">
+	<button class="btn btn-primary pull-right" ng-click="modal('add')">Add new Member</button>
+	<table class="table">
+		<thead>
+			<th>ID</th>
+			<th>Photo</th>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Gender</th>
+			<th>Adress</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="member in members">
+				<td>@{{ member.id }}</td>
+				<td><img ng-src="{{ url('upload/avatar') }}/@{{ member.photo }}" class="img-circle" height="70" width="90"></td>
+				<td>@{{ member.name }}</td>
+				<td>@{{ member.age }}</td>
+				<td>
+					<span ng-if="member.gender == 0">Male</span>
+					<span ng-if="member.gender == 1">Female</span>
+				</td>
+				<td>@{{ member.address }}</td>
+				<td>
+					<button class="btn btn-warning" ng-click="modal('edit')"> Edit</button>
+					<button class="btn btn-danger" ng-click="delete(member.id)"> Delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="myModal" class="modal fade" role="dialog">
+	  	<div class="modal-dialog">
+	    <!-- Modal content-->
+		    <div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		        	<h4 class="modal-title">@{{ modalTitle }}</h4>
+		      	</div>
+		      	<div class="modal-body">
+		      		<form enctype="multipart/form-data">
+						<div class="form-group">
+						    <label for="name">Name :</label>
+						    <input type="text" class="form-control" name="name" placeholder="Enter member's name" ng-model="member.name">
+						</div>
+						<div class="form-group">
+						    <label for="age">Age :</label>
+						    <input type="text" class="form-control" name="age" placeholder="Enter member's age" ng-model="member.age">
+						</div>
+						<div class="form-group">
+						    <label for="address">Adress :</label>
+						    <input type="text" class="form-control" name="address" placeholder="Enter member's address" ng-model="member.address">
+						</div>
+						<div class="form-group">
+						    <label for="age">Gender :</label>
+						    <select class="form-control" ng-model="member.gender">
+						    	<option value="0">Male</option>
+						    	<option value="1">Female</option>
+						    </select>
+						</div>
+						<div class="form-group">
+							<label for="photo">Photo :</label>
+							<input type="file" file="file" class="form-control">
+						</div>
+					</form>
+		      	</div>
+		      	<div class="modal-footer">
+		      		<button class="btn btn-success" ng-click="save(state)">@{{ modalBtn }}</button>
+		        	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+		      	</div>
+		    </div>
+	  	</div>
 	</div>
 </div>
 @endsection

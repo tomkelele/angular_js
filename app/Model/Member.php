@@ -15,4 +15,23 @@ class Member extends Model
     	$members = Member::orderBy('id', 'DESC')->get();
     	return $members;
     }
+
+    public function insert ($request)
+    {
+    	$member = new Member;
+    	$member->name = $request->name;
+    	$member->age = $request->age;
+    	$member->address = $request->address;
+    	$member->gender = $request->gender;
+    	$imageName = time().'.'.$request->photo->getClientOriginalExtension();
+    	$request->photo->move(public_path('upload/avatar'), $imageName);
+    	$member->photo = $imageName;
+    	$member->save();
+    }
+
+    public function getDelete ($id)
+    {
+    	$member = Member::find($id);
+    	$member->delete();
+    }
 }

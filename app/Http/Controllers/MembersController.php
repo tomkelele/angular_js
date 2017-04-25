@@ -23,4 +23,18 @@ class MembersController extends Controller
     	$data = $this->member->getList();
     	return response()->json($data);
     }
+
+    public function insert(Request $request)
+    {
+        $this->member->insert($request);
+        $data = $this->member->getList();
+        return response()->json($data);
+    }
+
+    public function getDelete(Request $request)
+    {
+        $this->member->getDelete($request->id);
+        $data = $this->member->getList();
+        return response()->json($data);        
+    }
 }
