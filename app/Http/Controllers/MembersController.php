@@ -7,9 +7,10 @@ use App\Model\Member;
 
 class MembersController extends Controller
 {
-	protected $member;
+    protected $member;
 
-	public function __construct(Member $member){
+	public function __construct(Member $member)
+    {
 		$this->member = $member;
 	}
 
@@ -35,6 +36,19 @@ class MembersController extends Controller
     {
         $this->member->getDelete($request->id);
         $data = $this->member->getList();
-        return response()->json($data);        
+        return response()->json($data);
+    }
+
+    public function getDetail(Request $request)
+    {
+        $data = $this->member->getById($request->id);
+        return response()->json($data);
+    }
+
+    public function getUpdate(Request $request)
+    {
+        $this->member->updateData($request);
+        $data = $this->member->getList();
+        return response()->json($data);
     }
 }

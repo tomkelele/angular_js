@@ -1,4 +1,4 @@
-var url = 'http://127.0.0.1:8000/dashboard/member/';
+var url =  window.location.href;
 
 app.directive('file', function () {
     return {
@@ -16,30 +16,43 @@ app.directive('file', function () {
 });
 
 app.controller('MemberController', function ($scope, $http) {
-	$http.get(url + 'list').then(function successCallback (response) {
-		console.log(response.data);
+	$http.get(url + '/member/list').then(function successCallback (response) {
 		$scope.members = response.data;
 	}, function errorCallback (response) {
 		sweetAlert("Error", "Something went wrong!", "error");
 	});
 
-	$scope.modal = function (state) {
+	$scope.modal = function (state, id) {
 		$('#myModal').modal('show');
 		$scope.state = state;
+		var id_member = id;
 		if (state == 'add') {
+			$scope.member = {};
+			$scope.modalForm.$setPristine(true);
 			$scope.modalTitle = 'Add new members';
 			$scope.modalBtn = 'Add';
 		}else if(state == 'edit') {
 			$scope.modalTitle = 'Edit members';
 			$scope.modalBtn = 'Edit';
+			$http({
+				method : 'POST',
+				url : url + '/member/detail',
+				data : {
+					id : id_member,
+				},
+			}).then(function successCallback (response) {
+				$scope.member = response.data;
+			}, function errorCallback (response) {
+				sweetAlert("Error", "Something went wrong!", "error");
+			});
 		}
 	}
 
-	$scope.save = function (state) {
+	$scope.save = function (state,id) {
 		if ( state == 'add' ) {
 			$http({
                 method: 'POST',
-                url: url + 'insert',
+                url: url + '/member/insert',
                 headers: {'Content-Type': undefined},
                 data: {
                     name: $scope.member.name,
@@ -63,7 +76,32 @@ app.controller('MemberController', function ($scope, $http) {
             	sweetAlert("Error", "Something went wrong!", "error");
             });
 		} else if (state == 'edit') {
-
+			$http({
+				method : 'POST',
+				url : url + '/member/update',
+				headers : { 'Content-Type' : undefined },
+				data : {
+					id : id,
+					name : $scope.member.name,
+					age : $scope.member.age,
+					gender : $scope.member.gender,
+					address : $scope.member.address,
+					photo : $scope.file,
+				},
+				transformRequest: function (data, headersGetter) {
+					var formData = new FormData();
+					angular.forEach(data, function (value, key) {
+						formData.append(key, value);
+					});
+					return formData;
+				}
+			}).then(function successCallback(response) {
+				$scope.members = response.data;
+				$('#myModal').modal('hide');
+				sweetAlert("Success", "Member was edited", "success");
+			}, function errorCallback(response) {
+				sweetAlert("Error", "Something went wrong!", "error");
+			});
 		}
 	}
 
@@ -80,7 +118,7 @@ app.controller('MemberController', function ($scope, $http) {
 		function () {
 			$http({
 				method : 'POST',
-				url : url + 'destroy',
+				url : url + '/member/destroy',
 				data : {
 					id : index,
 				}
@@ -88,7 +126,7 @@ app.controller('MemberController', function ($scope, $http) {
 				$scope.members = response.data;
 				sweetAlert("Congratulation", "You just kicked some asshole out of the squad", "success");
 			}, function errorCallback (response) {
-
+				sweetAlert("Error", "Something went wrong!", "error");
 			});
 		});
 	}

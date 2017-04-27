@@ -26,5 +26,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function() {
 		Route::get('list', 'MembersController@getList');
 		Route::post('insert', 'MembersController@insert');
 		Route::post('destroy', 'MembersController@getDelete');
+		Route::post('detail', 'MembersController@getDetail');
+		Route::post('update', 'MembersController@getUpdate');
 	});
 });

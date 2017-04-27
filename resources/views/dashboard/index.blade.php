@@ -25,7 +25,7 @@
 				</td>
 				<td>@{{ member.address }}</td>
 				<td>
-					<button class="btn btn-warning" ng-click="modal('edit')"> Edit</button>
+					<button class="btn btn-warning" ng-click="modal('edit',member.id)"> Edit</button>
 					<button class="btn btn-danger" ng-click="delete(member.id)"> Delete</button>
 				</td>
 			</tr>
@@ -40,7 +40,7 @@
 		        	<h4 class="modal-title">@{{ modalTitle }}</h4>
 		      	</div>
 		      	<div class="modal-body">
-		      		<form enctype="multipart/form-data">
+		      		<form enctype="multipart/form-data" name="modalForm" role="form">
 						<div class="form-group">
 						    <label for="name">Name :</label>
 						    <input type="text" class="form-control" name="name" placeholder="Enter member's name" ng-model="member.name">
@@ -56,18 +56,19 @@
 						<div class="form-group">
 						    <label for="age">Gender :</label>
 						    <select class="form-control" ng-model="member.gender">
-						    	<option value="0">Male</option>
-						    	<option value="1">Female</option>
+						    	<option value="0" ng-selected="member.gender == 0">Male</option>
+						    	<option value="1" ng-selected="member.gender == 1">Female</option>
 						    </select>
 						</div>
 						<div class="form-group">
 							<label for="photo">Photo :</label>
 							<input type="file" file="file" class="form-control">
+							<p style="color:red;">@{{ errorMessage }}</p>
 						</div>
 					</form>
 		      	</div>
 		      	<div class="modal-footer">
-		      		<button class="btn btn-success" ng-click="save(state)">@{{ modalBtn }}</button>
+		      		<button class="btn btn-success" ng-click="save(state,member.id)">@{{ modalBtn }}</button>
 		        	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 		      	</div>
 		    </div>

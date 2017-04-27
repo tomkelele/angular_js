@@ -34,4 +34,33 @@ class Member extends Model
     	$member = Member::find($id);
     	$member->delete();
     }
+
+    public function getById ($id)
+    {
+        $member = Member::find($id);
+        return $member;
+    }
+
+    public function updateData ($request)
+    {
+        $member = Member::find($request->id);
+        if ($request->name) {
+            $member->name = $request->name;
+        }
+        if ($request->age) {
+            $member->age = $request->age;
+        }
+        if ($request->address) {
+            $member->address = $request->address;
+        }
+        if ($request->gender) {
+            $member->gender = $request->gender;
+        }
+        if ($request->photo != 'undefined') {
+            $imageName = time().'.'.$request->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('upload/avatar'), $imageName);
+            $member->photo = $imageName;
+        }
+        $member->save();
+    }
 }
