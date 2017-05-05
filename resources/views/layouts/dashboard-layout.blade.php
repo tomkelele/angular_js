@@ -17,6 +17,8 @@
     <!-- Custom styles for this template -->
     <link href="{{ url('css/dashboard.css') }}" rel="stylesheet">
     <link href="{{ url('css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- font-awesome -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Sweet Alert -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/sweetalert.css') }}">
   </head>

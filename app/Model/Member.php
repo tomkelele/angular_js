@@ -23,8 +23,12 @@ class Member extends Model
     	$member->age = $request->age;
     	$member->address = $request->address;
     	$member->gender = $request->gender;
-    	$imageName = time().'.'.$request->photo->getClientOriginalExtension();
-    	$request->photo->move(public_path('upload/avatar'), $imageName);
+        if ($request->photo != 'undefined') {
+            $imageName = time().'.'.$request->photo->getClientOriginalExtension();
+            $request->photo->move(public_path('upload/avatar'), $imageName);
+        } else {
+            $imageName = 'default.png';
+        }
     	$member->photo = $imageName;
     	$member->save();
     }
