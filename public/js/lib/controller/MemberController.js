@@ -66,32 +66,34 @@ app.controller('MemberController', function ($scope, $http) {
 	            });
 			}
 		} else if (state == 'edit') {
-			$http({
-				method : 'POST',
-				url : url + '/member/update',
-				headers : { 'Content-Type' : undefined },
-				data : {
-					id : id,
-					name : $scope.member.name,
-					age : $scope.member.age,
-					gender : $scope.member.gender,
-					address : $scope.member.address,
-					photo : $scope.file,
-				},
-				transformRequest: function (data, headersGetter) {
-					var formData = new FormData();
-					angular.forEach(data, function (value, key) {
-						formData.append(key, value);
-					});
-					return formData;
-				}
-			}).then(function successCallback(response) {
-				$scope.members = response.data;
-				$('#myModal').modal('hide');
-				sweetAlert("Success", "Member was edited", "success");
-			}, function errorCallback(response) {
-				sweetAlert("Error", "Something went wrong!", "error");
-			});
+			if ($scope.modalForm.$invalid == false) {
+				$http({
+					method : 'POST',
+					url : url + '/member/update',
+					headers : { 'Content-Type' : undefined },
+					data : {
+						id : id,
+						name : $scope.member.name,
+						age : $scope.member.age,
+						gender : $scope.member.gender,
+						address : $scope.member.address,
+						photo : $scope.file,
+					},
+					transformRequest: function (data, headersGetter) {
+						var formData = new FormData();
+						angular.forEach(data, function (value, key) {
+							formData.append(key, value);
+						});
+						return formData;
+					}
+				}).then(function successCallback(response) {
+					$scope.members = response.data;
+					$('#myModal').modal('hide');
+					sweetAlert("Success", "Member was edited", "success");
+				}, function errorCallback(response) {
+					sweetAlert("Error", "Something went wrong!", "error");
+				});
+			}
 		}
 	}
 

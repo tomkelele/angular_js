@@ -46,7 +46,7 @@ class MembersController extends Controller
         return response()->json($data);
     }
 
-    public function getUpdate(Request $request)
+    public function getUpdate(MemberFormRequest $request)
     {
         $this->member->updateData($request);
         $data = $this->member->getList();
