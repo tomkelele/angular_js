@@ -23,7 +23,7 @@ class Member extends Model
     	$member->age = $request->age;
     	$member->address = $request->address;
     	$member->gender = $request->gender;
-        if ($request->photo != 'undefined') {
+        if ($request->photo != 'null') {
             $imageName = time().'.'.$request->photo->getClientOriginalExtension();
             $request->photo->move(public_path('upload/avatar'), $imageName);
         } else {
@@ -60,7 +60,7 @@ class Member extends Model
         if ($request->gender) {
             $member->gender = $request->gender;
         }
-        if ($request->photo != 'undefined') {
+        if ($request->photo != 'null') {
             $imageName = time().'.'.$request->photo->getClientOriginalExtension();
             $request->photo->move(public_path('upload/avatar'), $imageName);
             $member->photo = $imageName;

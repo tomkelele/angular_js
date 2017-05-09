@@ -13,14 +13,17 @@ app.controller('MemberController', function ($scope, $http) {
 		var id_member = id;
 		if (state == 'add') {
 			$scope.member = {};
-			$('input[type=file]').val('');
+			$('input[type=file]').val(null);
+			$scope.file = null;
 			$scope.modalForm.$setPristine(true);
 			$scope.modalTitle = 'Add new members';
 			$scope.modalBtn = 'Add';
 		}else if(state == 'edit') {
 			$scope.modalTitle = 'Edit members';
 			$scope.modalBtn = 'Edit';
-			$('input[type=file]').val('');
+			$('input[type=file]').val(null);
+			$scope.file = null;
+			$scope.modalForm.$setPristine(true);
 			$http({
 				method : 'POST',
 				url : url + '/member/detail',
@@ -66,34 +69,32 @@ app.controller('MemberController', function ($scope, $http) {
 	            });
 			}
 		} else if (state == 'edit') {
-			if ($scope.modalForm.$invalid == false) {
-				$http({
-					method : 'POST',
-					url : url + '/member/update',
-					headers : { 'Content-Type' : undefined },
-					data : {
-						id : id,
-						name : $scope.member.name,
-						age : $scope.member.age,
-						gender : $scope.member.gender,
-						address : $scope.member.address,
-						photo : $scope.file,
-					},
-					transformRequest: function (data, headersGetter) {
-						var formData = new FormData();
-						angular.forEach(data, function (value, key) {
-							formData.append(key, value);
-						});
-						return formData;
-					}
-				}).then(function successCallback(response) {
-					$scope.members = response.data;
-					$('#myModal').modal('hide');
-					sweetAlert("Success", "Member was edited", "success");
-				}, function errorCallback(response) {
-					sweetAlert("Error", "Something went wrong!", "error");
-				});
-			}
+			$http({
+				method : 'POST',
+				url : url + '/member/update',
+				headers : { 'Content-Type' : undefined },
+				data : {
+					id : id,
+					name : $scope.member.name,
+					age : $scope.member.age,
+					gender : $scope.member.gender,
+					address : $scope.member.address,
+					photo : $scope.file,
+				},
+				transformRequest: function (data, headersGetter) {
+					var formData = new FormData();
+					angular.forEach(data, function (value, key) {
+						formData.append(key, value);
+					});
+					return formData;
+				}
+			}).then(function successCallback(response) {
+				$scope.members = response.data;
+				$('#myModal').modal('hide');
+				sweetAlert("Success", "Member was edited", "success");
+			}, function errorCallback(response) {
+				sweetAlert("Error", "Something went wrong!", "error");
+			});
 		}
 	}
 

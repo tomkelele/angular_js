@@ -26,7 +26,7 @@ class MembersController extends Controller
     	return response()->json($data);
     }
 
-    public function insert(MemberFormRequest $request)
+    public function insert(Request $request)
     {
         $this->member->insert($request);
         $data = $this->member->getList();
@@ -46,7 +46,7 @@ class MembersController extends Controller
         return response()->json($data);
     }
 
-    public function getUpdate(MemberFormRequest $request)
+    public function getUpdate(Request $request)
     {
         $this->member->updateData($request);
         $data = $this->member->getList();

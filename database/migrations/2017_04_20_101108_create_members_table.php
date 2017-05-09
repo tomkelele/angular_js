@@ -19,7 +19,7 @@ class CreateMembersTable extends Migration
             $table->string('address', 300);
             $table->tinyInteger('age');
             $table->tinyInteger('gender')->comment('0 : Male, 1 : Female');
-            $table->string('photo');
+            $table->string('photo')->nullable()->default('default.png');
             $table->timestamps();
         });
     }
