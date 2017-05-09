@@ -10,20 +10,20 @@ class MembersController extends Controller
 {
     protected $member;
 
-	public function __construct(Member $member)
+    public function __construct(Member $member)
     {
-		$this->member = $member;
-	}
+        $this->member = $member;
+    }
 
     public function index()
     {
-    	return view('dashboard.index');
+        return view('dashboard.index');
     }
 
     public function getList()
     {
-    	$data = $this->member->getList();
-    	return response()->json($data);
+        $data = $this->member->getList();
+        return response()->json($data);
     }
 
     public function insert(Request $request)
