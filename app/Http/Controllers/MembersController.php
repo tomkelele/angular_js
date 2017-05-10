@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Member;
-use App\Http\Requests\MemberFormRequest;
+use App\Http\Requests\MemBerFormRequest;
 
 class MembersController extends Controller
 {
@@ -26,7 +26,7 @@ class MembersController extends Controller
         return response()->json($data);
     }
 
-    public function insert(Request $request)
+    public function insert(MemBerFormRequest $request)
     {
         $this->member->insert($request);
         $data = $this->member->getList();
@@ -46,7 +46,7 @@ class MembersController extends Controller
         return response()->json($data);
     }
 
-    public function getUpdate(Request $request)
+    public function getUpdate(MemBerFormRequest $request)
     {
         $this->member->updateData($request);
         $data = $this->member->getList();

@@ -24,11 +24,11 @@ $factory->define(App\Model\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Model\Member::class, function (Faker\Generator $faker) {
-	return [
-		'name' => $faker->name,
-		'address' => $faker->address,
-		'age' => rand(1,99),
-		'gender' => rand(0,1),
-		'photo' => str_random(10),
-	];
+    return [
+        'name' => $faker->name,
+        'address' => $faker->address,
+        'age' => rand(1, 99),
+        'gender' => rand(0, 1),
+        'photo' => str_random(10),
+    ];
 });

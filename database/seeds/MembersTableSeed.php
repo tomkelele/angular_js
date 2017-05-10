@@ -15,15 +15,15 @@ class MembersTableSeed extends Seeder
             'name' => 'Kobe Bryant',
             'address' => 'Los Angeles Lakers',
             'photo' => 'kobebryant.png',
-            'age'	=> '25',
-            'gender'	=> 0
+            'age'    => '25',
+            'gender'    => 0
         ]);
         DB::table('members')->insert([
             'name' => 'Micheal Jordan',
             'address' => 'Chicago Bulls',
             'photo' => 'jordan.png',
-            'age'	=> '25',
-            'gender'	=> 0
+            'age'    => '25',
+            'gender'    => 0
         ]);
     }
 }

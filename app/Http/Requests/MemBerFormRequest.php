@@ -24,9 +24,9 @@ class MemBerFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'  => 'max:100',
-            'age'   => 'digits_between:1,2',
-            'address'   => 'max:300',
+            'name'  => 'required|max:100|not_in:undefined',
+            'age'   => 'required|digits_between:1,2|numeric',
+            'address'   => 'required|max:300|not_in:undefined',
             'photo' => 'mimes:jpeg,gif,png|max:10240',
         ];
     }

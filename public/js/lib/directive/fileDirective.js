@@ -7,6 +7,7 @@ app.directive('file', function () {
                 scope.file = file ? file : undefined;
                 scope.$apply();
             });
+            
             ngModel.$validators.size = function () {
             	if (scope.file) {
             		if (scope.file.size > 10485760) {
@@ -18,6 +19,7 @@ app.directive('file', function () {
             		return true;
             	}
             }
+            
             ngModel.$validators.extension = function () {
             	if (scope.file) {
             		if (scope.file.type == 'image/jpeg' || scope.file.type == 'image/png' || scope.file.type == 'image/gif') {
