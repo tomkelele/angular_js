@@ -64,8 +64,6 @@ class Member extends Model
             $imageName = time().'.'.$request->photo->getClientOriginalExtension();
             $request->photo->move(public_path('upload/avatar'), $imageName);
             $member->photo = $imageName;
-        } else {
-            $member->photo = "";
         }
         $member->save();
     }

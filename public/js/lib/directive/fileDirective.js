@@ -4,7 +4,7 @@ app.directive('file', function () {
         link: function (scope, el, attrs, ngModel) {
             el.bind('change', function (event) {
                 var file = event.target.files[0];
-                scope.file = file ? file : undefined;
+                scope.file = file ? file : null;
                 scope.$apply();
             });
             

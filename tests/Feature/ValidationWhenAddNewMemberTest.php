@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ValidationTest extends TestCase
+class ValidationWhenAddNewMemberTest extends TestCase
 {
     use DatabaseMigrations;
     /**
@@ -15,11 +15,6 @@ class ValidationTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
-
     public function testAddNewMemberWith99CharactersOnName()
     {
         $user = factory(\App\Model\User::class)->create();
@@ -27,7 +22,8 @@ class ValidationTest extends TestCase
             'name' => '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789',
             'address' => 'localhost',
             'age' => '23',
-            'gender' => '0'
+            'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -45,7 +41,8 @@ class ValidationTest extends TestCase
             'name' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
             'address' => 'localhost',
             'age' => '23',
-            'gender' => '0'
+            'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -63,7 +60,8 @@ class ValidationTest extends TestCase
             'name' => '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
             'address' => 'localhost',
             'age' => '23',
-            'gender' => '0'
+            'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
@@ -81,7 +79,8 @@ class ValidationTest extends TestCase
             'name' => '',
             'address' => 'localhost',
             'age' => '23',
-            'gender' => '0'
+            'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
@@ -100,6 +99,7 @@ class ValidationTest extends TestCase
             'address' => 'localhost',
             'age' => '9',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -118,6 +118,7 @@ class ValidationTest extends TestCase
             'address' => 'localhost',
             'age' => '19',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -136,6 +137,26 @@ class ValidationTest extends TestCase
             'address' => 'localhost',
             'age' => '191',
             'gender' => '0',
+            'photo' => null,
+        ];
+        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->assertDatabaseMissing('members', [
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'age' => $data['age'],
+            'gender' => $data['gender'],
+        ]);
+    }
+
+    public function testAddNewMemberWithoutAge()
+    {
+        $user = factory(\App\Model\User::class)->create();
+        $data = [
+            'name' => 'Test without age',
+            'address' => 'localhost',
+            'age' => '',
+            'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
@@ -154,6 +175,7 @@ class ValidationTest extends TestCase
             'address' => '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789',
             'age' => '23',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -172,6 +194,7 @@ class ValidationTest extends TestCase
             'address' => '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
             'age' => '23',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -190,6 +213,7 @@ class ValidationTest extends TestCase
             'address' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
             'age' => '23',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
@@ -208,6 +232,7 @@ class ValidationTest extends TestCase
             'address' => '',
             'age' => '23',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [

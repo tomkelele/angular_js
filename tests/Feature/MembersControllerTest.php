@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,11 +18,6 @@ class MembersControllerTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
-
     public function testLoginDashboard()
     {
         $user = factory(\App\Model\User::class)->create();
@@ -42,6 +39,7 @@ class MembersControllerTest extends TestCase
             'address' => 'localhost',
             'age' => '23',
             'gender' => '0',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
@@ -86,7 +84,8 @@ class MembersControllerTest extends TestCase
             'name' => 'New Edit',
             'address' => 'local near host',
             'age' => '24',
-            'gender' => '1'
+            'gender' => '1',
+            'photo' => null,
         ];
         $this->actingAs($user)->call('POST', 'dashboard/member/update', $dataEdit);
         $this->assertDatabaseHas('members', [

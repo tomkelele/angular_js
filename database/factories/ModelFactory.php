@@ -29,6 +29,5 @@ $factory->define(App\Model\Member::class, function (Faker\Generator $faker) {
         'address' => $faker->address,
         'age' => rand(1, 99),
         'gender' => rand(0, 1),
-        'photo' => str_random(10),
     ];
 });

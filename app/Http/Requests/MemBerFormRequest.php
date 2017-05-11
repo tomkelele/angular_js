@@ -27,7 +27,18 @@ class MemBerFormRequest extends FormRequest
             'name'  => 'required|max:100|not_in:undefined',
             'age'   => 'required|digits_between:1,2|numeric',
             'address'   => 'required|max:300|not_in:undefined',
-            'photo' => 'mimes:jpeg,gif,png|max:10240',
+            'photo' => 'nullable|image|mimes:jpeg,gif,png|max:10240',
         ];
+    }
+
+    public function all()
+    {
+        $values = parent::all();
+
+        if ($values['photo'] === 'null') {
+            $values['photo'] = null;
+        }
+
+        return $values;
     }
 }
