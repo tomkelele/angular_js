@@ -35,7 +35,7 @@ class MembersController extends Controller
 
     public function getDelete(Request $request)
     {
-        $this->member->getDelete($request->id);
+        $this->member->deleteData($request->id);
         $data = $this->member->getList();
         return response()->json($data);
     }

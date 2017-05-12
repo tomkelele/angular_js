@@ -15,17 +15,24 @@ class ValidationWhenAddNewMemberTest extends TestCase
      *
      * @return void
      */
+    private $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(\App\Model\User::class)->create();
+    }
+
     public function testAddNewMemberWith99CharactersOnName()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789',
             'address' => 'localhost',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -36,15 +43,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith100CharactersOnName()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
             'address' => 'localhost',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -55,15 +61,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith101CharactersOnName()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
             'address' => 'localhost',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -74,15 +79,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWithoutName()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => '',
             'address' => 'localhost',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -93,15 +97,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith1DigitOnAge()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test age with 1 digit',
             'address' => 'localhost',
-            'age' => '9',
-            'gender' => '0',
+            'age' => 9,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -112,15 +115,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith2DigitsOnAge()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test age with 2 digits',
             'address' => 'localhost',
-            'age' => '19',
-            'gender' => '0',
+            'age' => 19,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -131,15 +133,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith3DigitsOnAge()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test age with 3 digits',
             'address' => 'localhost',
-            'age' => '191',
-            'gender' => '0',
+            'age' => 191,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -150,15 +151,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWithoutAge()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test without age',
             'address' => 'localhost',
             'age' => '',
-            'gender' => '0',
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -169,15 +169,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith299CharactersOnAddress()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test address with 299 characters',
             'address' => '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -188,15 +187,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith300CharactersOnAddress()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test address with 299 characters',
             'address' => '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -207,15 +205,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWith301CharactersOnAddress()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test address with 299 characters',
             'address' => '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],
@@ -226,15 +223,14 @@ class ValidationWhenAddNewMemberTest extends TestCase
 
     public function testAddNewMemberWithoutAddress()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Test address without address',
             'address' => '',
-            'age' => '23',
-            'gender' => '0',
+            'age' => 23,
+            'gender' => 0,
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseMissing('members', [
             'name' => $data['name'],
             'address' => $data['address'],

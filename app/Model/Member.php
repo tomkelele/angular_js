@@ -33,7 +33,7 @@ class Member extends Model
         $member->save();
     }
 
-    public function delete($id)
+    public function deleteData($id)
     {
         $member = Member::find($id);
         $member->delete();

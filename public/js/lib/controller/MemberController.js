@@ -1,6 +1,8 @@
 var url =  window.location.href;
 
 app.controller('MemberController', function ($scope, $http) {
+	$scope.reverseSort = false;
+
 	$http.get(url + '/member/list').then(function successCallback (response) {
 		$scope.members = response.data;
 	}, function errorCallback (response) {

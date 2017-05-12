@@ -7,14 +7,14 @@
 		<thead>
 			<th>ID</th>
 			<th>Photo</th>
-			<th>Name <a href=""><i class="fa fa-sort" aria-hidden="true"></i></a></th>
-			<th>Age <a href=""><i class="fa fa-sort" aria-hidden="true"></i></a></th>
+			<th>Name <a href="" ng-click="orderByField='name'; reverseSort = !reverseSort"><i class="fa fa-sort" aria-hidden="true"></i></a></th>
+			<th>Age <a href="" ng-click="orderByField='age'; reverseSort = !reverseSort"><i class="fa fa-sort" aria-hidden="true"></i></a></th>
 			<th>Gender</th>
-			<th>Adress <a href=""><i class="fa fa-sort" aria-hidden="true"></i></a></th>
+			<th>Adress <a href="" ng-click="orderByField='address'; reverseSort = !reverseSort"><i class="fa fa-sort" aria-hidden="true"></i></a></th>
 			<th>Action</th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="member in members">
+			<tr ng-repeat="member in members | orderBy:orderByField:reverseSort">
 				<td>@{{ member.id }}</td>
 				<td><img ng-src="{{ url('upload/avatar') }}/@{{ member.photo }}" class="img-circle" height="70" width="90"></td>
 				<td>@{{ member.name }}</td>
@@ -61,7 +61,7 @@
 						</div>
 						<div class="form-group">
 						    <label for="age">Gender :</label>
-						    <select class="form-control" name="gender" ng-model="member.gender" required>
+						    <select class="form-control" name="gender" ng-model="member.gender" ng-init="member.gender = '0'" required>
 						    	<option value="0" ng-selected="member.gender == 0">Male</option>
 						    	<option value="1" ng-selected="member.gender == 1">Female</option>
 						    </select>

@@ -16,22 +16,27 @@ class MembersControllerTest extends TestCase
      *
      * @return void
      */
+    private $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(\App\Model\User::class)->create();
+    }
+
     public function testLoginDashboard()
     {
-        $user = factory(\App\Model\User::class)->create();
-        $this->actingAs($user)->get('/dashboard')->assertStatus(200);
+        $this->actingAs($this->user)->get('/dashboard')->assertStatus(200);
     }
 
     public function testGetListMember()
     {
-        $user = factory(\App\Model\User::class)->create();
-        $response = $this->actingAs($user)->get('dashboard/member/list');
+        $response = $this->actingAs($this->user)->get('dashboard/member/list');
         $response->assertStatus(200);
     }
  
     public function testAddNewMember()
     {
-        $user = factory(\App\Model\User::class)->create();
         $data = [
             'name' => 'Testing',
             'address' => 'localhost',
@@ -39,18 +44,18 @@ class MembersControllerTest extends TestCase
             'gender' => '0',
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/insert', $data);
+        $response = $this->actingAs($this->user)->call('POST', 'dashboard/member/insert', $data);
         $this->assertDatabaseHas('members', [
             'name' => $data['name'],
             'address' => $data['address'],
             'age' => $data['age'],
             'gender' => $data['gender'],
         ]);
+        $response->assertStatus(200);
     }
 
     public function testDeleteMember()
     {
-        $user = factory(\App\Model\User::class)->create();
         $member = factory(\App\Model\Member::class)->create([
             'name' => 'Test delete',
             'address' => 'localhost',
@@ -58,18 +63,18 @@ class MembersControllerTest extends TestCase
             'gender' => '1'
         ]);
         $memberId = $member->id;
-        $this->actingAs($user)->call('POST', 'dashboard/member/destroy', ['id' => $memberId]);
+        $response = $this->actingAs($this->user)->call('POST', 'dashboard/member/destroy', ['id' => $memberId]);
         $this->assertDatabaseMissing('members', [
             'name' => $member->name,
             'address' => $member->address,
             'age' => $member->age,
             'gender' => $member->gender,
         ]);
+        $response->assertStatus(200);
     }
 
     public function testEditMember()
     {
-        $user = factory(\App\Model\User::class)->create();
         $member = factory(\App\Model\Member::class)->create([
             'name' => 'Test Edit',
             'address' => 'localhost',
@@ -85,18 +90,18 @@ class MembersControllerTest extends TestCase
             'gender' => '1',
             'photo' => null,
         ];
-        $this->actingAs($user)->call('POST', 'dashboard/member/update', $dataEdit);
+        $response = $this->actingAs($this->user)->call('POST', 'dashboard/member/update', $dataEdit);
         $this->assertDatabaseHas('members', [
             'name' => $dataEdit['name'],
             'address' => $dataEdit['address'],
             'age' => $dataEdit['age'],
             'gender' => $dataEdit['gender'],
         ]);
+        $response->assertStatus(200);
     }
 
     public function testGetDetailMember()
     {
-        $user = factory(\App\Model\User::class)->create();
         $member = factory(\App\Model\Member::class)->create([
             'name' => 'Test Detail',
             'address' => 'localhost',
@@ -104,7 +109,7 @@ class MembersControllerTest extends TestCase
             'gender' => '0'
         ]);
         $memberId = $member->id;
-        $response = $this->actingAs($user)->call('POST', 'dashboard/member/detail', [
+        $response = $this->actingAs($this->user)->call('POST', 'dashboard/member/detail', [
             'id' => $memberId,
         ]);
         $response->assertStatus(200);
