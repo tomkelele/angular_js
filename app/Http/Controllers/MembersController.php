@@ -8,7 +8,7 @@ use App\Http\Requests\MemBerFormRequest;
 
 class MembersController extends Controller
 {
-    protected $member;
+    private $member;
 
     public function __construct(Member $member)
     {
